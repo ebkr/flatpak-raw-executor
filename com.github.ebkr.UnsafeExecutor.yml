@@ -1,0 +1,34 @@
+id: com.github.ebkr.UnsafeExecutor
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.golang
+command: unsafe-executor
+separate-locales: false
+build-options:
+      build-args:
+        - --share=network
+finish-args:
+  - --share=network # Required to download Go dependencies during build
+  - --talk-name=org.freedesktop.Flatpak.Development
+  - --filesystem=home
+  - --filesystem=/mnt
+  - --filesystem=host
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --socket=session-bus
+  - --device=all
+  - --socket=pulseaudio
+  - --socket=system-bus
+
+modules:
+  - name: unsafe-executor
+    buildsystem: simple
+    build-commands:
+      - . /usr/lib/sdk/golang/enable.sh && go build -o unsafe-executor main.go
+      - install -D unsafe-executor /app/bin/unsafe-executor
+    sources:
+      - type: dir
+        path: . 

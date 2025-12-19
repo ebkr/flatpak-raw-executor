@@ -1,0 +1,5 @@
+[tools]
+go = "latest"
+
+[tasks]
+build = "flatpak-builder --user --install --force-clean build-dir com.github.ebkr.UnsafeExecutor.yml"
